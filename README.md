@@ -21,10 +21,6 @@ Each article will translate complex information from official sources into simpl
 
 The primary objective is to produce an application that drastically reduces the time required to find and understand technical information. By offering a reliable source for clear implementation guides, the project aims to accelerate learning, streamline development cycles, and improve the overall productivity of its users.
 
-### Project By:
-Prabhanshu Chaturvedi<br/>
-PRN: 250250329008<br/>
-CDAC DASSD
 
 ---
 </div>
