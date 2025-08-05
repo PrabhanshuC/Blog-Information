@@ -1,4 +1,5 @@
 const { model, Schema } = require("mongoose");
+const bcrypt = require("bcryptjs");
 
 const User_Schema = new Schema(
     {
@@ -28,21 +29,48 @@ const User_Schema = new Schema(
         },
         name:
         {
-            type: String
+            type: String,
+            default: ""
         },
         about:
         {
-            type: String
+            type: String,
+            default: ""
         },
         github:
         {
-            type: String
+            type: String,
+            default: ""
         },
         website:
         {
-            type: String
+            type: String,
+            default: ""
+        },
+        status:
+        {
+            type: String,
+            enum: ["active", "deactivated", "pending_deletion"],
+            default: "active"
+        },
+        deletion_scheduled_for:
+        {
+            type: Date,
+            default: null
         }
     }
 );
 
-module.exports = model(User_Schema);
+// Pre-save hook to hash password before saving
+User_Schema.pre("save", async function (next)
+{
+    if (!this.isModified("password"))
+        return next();
+
+    const salt = await bcrypt.genSalt(10);
+
+    this.password = await bcrypt.hash(this.password, salt);
+    next();
+});
+
+module.exports = model("User", User_Schema);

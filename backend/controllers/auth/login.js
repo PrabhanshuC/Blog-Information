@@ -3,27 +3,39 @@ const User = require("../../models/User");
 
 const { v4: uuidv4 } = require("uuid");
 const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 
+/**
+ * @desc    Log in a registered user using username or email
+ * @route   POST /api/auth/login
+ * @access  Public
+ */
 const login = async (request, response) =>
 {
     try
     {
         const { uid, password } = request.body;
 
-        const is_username = await User.findOne({ username: uid });
-        const is_email = await User.findOne({ email: uid });
+        const user = await User.findOne(
+            {
+                $or: [
+                    { username: uid },
+                    { email: uid }
+                ]
+            }
+        );
 
-        const user = is_username || is_email;
+        // If no user is found with either username or email
+        if(!user)
+            return response.status(400).json({ message: "Invalid credentials" });
 
-        if(user)
-            return response.status(400).json({ msg: "Enter a valid username or email" });
-
+        // Compare the provided password with the hashed password in the database
         const password_matched = await bcrypt.compare(password, user.password);
         
         if(!password_matched)
-            return response.status(400).json({ msg: 'Invalid credentials' });
+            return response.status(400).json({ message: 'Invalid credentials' });
 
+        // Generate JWT
         const jti = uuidv4();
         const payload =
         {

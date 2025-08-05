@@ -18,4 +18,4 @@ const Blacklist_Schema = new Schema(
     }
 );
 
-module.exports = model(Blacklist_Schema);
+module.exports = model("Blacklist", Blacklist_Schema);

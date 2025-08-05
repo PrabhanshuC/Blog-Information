@@ -3,8 +3,13 @@ const User = require("../../models/User");
 
 const { v4: uuidv4 } = require("uuid");
 const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 
+/**
+ * @desc    Register a new user
+ * @route   POST /api/auth/register
+ * @access  Public
+ */
 const register = async (request, response) =>
 {
     try
@@ -13,11 +18,7 @@ const register = async (request, response) =>
         {
             username,
             password,
-            email,
-            name,
-            about,
-            github,
-            website
+            email
         } = request.body;
 
         const user_exists = await User.findOne({ username });
@@ -29,18 +30,14 @@ const register = async (request, response) =>
 
         if(email_exists)
             return response.status(400).json({ message: "Email already exists" });
-
+        
         const hashed_password = await bcrypt.hash(password, 10);
         
         const user = new User(
             {
                 username,
                 password: hashed_password,
-                email,
-                name,
-                about,
-                github,
-                website
+                email
             }
         );
 
@@ -50,7 +47,7 @@ const register = async (request, response) =>
         const payload =
         {
             id: user._id,
-            website_role: user.role,
+            role: user.role,
             jti
         };
         const token = jwt.sign(payload, config.JWT_SECRET, { expiresIn: "7d" });

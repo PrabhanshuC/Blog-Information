@@ -1,5 +1,10 @@
 const Article = require("../../models/Article");
 
+/**
+ * @desc    Get specified article
+ * @route   GET /api/articles/:id
+ * @access  Public
+ */
 const get_article = async (request, response) =>
 {
     try

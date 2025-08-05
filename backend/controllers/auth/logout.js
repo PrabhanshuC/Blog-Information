@@ -1,5 +1,10 @@
 const { revoke_token } = require("../../utilities/revoke_token");
 
+/**
+ * @desc    Log out a logged-in user
+ * @route   POST /api/auth/logout
+ * @access  Private
+ */
 const logout = async (request, response) =>
 {
     try

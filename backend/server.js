@@ -20,7 +20,8 @@ const cors = require("cors");
 
 const options =
 {
-    origin: config.DATABASE
+    origin: config.FRONTEND,
+    optionsSuccessStatus: 200
 };
 
 server.use(cors(options));
@@ -30,17 +31,18 @@ const connect_db = require("./config/database");
 
 connect_db();
 
-const home = require("./controllers/home");
-const { model } = require("mongoose");
-
-server.set("view engine", "ejs");
-server.set("views", path.join(__dirname, "views"));
-
 // Routes
-server.get("/", home);
 
-// server.use("/admin", require("./Routes/admin"));
-server.use("/user", require("./routes/user"));
-server.use("/article", require("./routes/article"));
+// For API routes related to authentication
+server.use("/api/auth", require("./routes/auth"));
+
+// For API routes related to user profiles
+server.use("/api/users", require("./routes/user"));
+
+// For API routes related to articles
+server.use("/api/articles", require("./routes/article"));
+
+// For API routes related to admin
+server.use("/api/admin", require("./routes/admin"));
 
 server.listen(config.PORT, config.HOSTNAME, () => console.log(`Server is running at http://${config.HOSTNAME}:${config.PORT}`));

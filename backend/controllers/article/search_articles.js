@@ -1,5 +1,10 @@
 const Article = require("../../models/Article");
 
+/**
+ * @desc    Search articles
+ * @route   GET /api/articles/search
+ * @access  Public
+ */
 const search_articles = async (request, response) =>
 {
     try
@@ -18,7 +23,7 @@ const search_articles = async (request, response) =>
                     { tags: { $in: [search_regex] } }
                 ]
             }
-        ).populate("author", "username", "name");
+        ).populate("author", "username");
 
         if (!articles.length)
             return response.status(404).json({ message: "No articles found matching your query." });

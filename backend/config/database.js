@@ -2,7 +2,6 @@ const config = require("../global_variables");
 
 const mongoose = require("mongoose");
 
-
 const connect_db = async () => 
 {
     try

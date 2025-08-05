@@ -1,5 +1,10 @@
 const Article = require("../../models/Article");
 
+/**
+ * @desc    Get all articles
+ * @route   GET /api/articles/
+ * @access  Public
+ */
 const get_articles = async (request, response) =>
 {
     try
@@ -11,6 +16,7 @@ const get_articles = async (request, response) =>
     catch(err)
     {
         console.error(err.message);
+        
         response.json({ message: "Internal server error" });
     }
 };

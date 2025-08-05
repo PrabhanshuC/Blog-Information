@@ -21,14 +21,15 @@ const Article_Schema = new Schema(
         tags:
         {
             type: [String],
-            required: true
+            default: []
         },
         likes:
         {
             type: Number,
             default: 0
         }
-    }
+    },
+    { timestamps: true }
 );
 
-module.exports = model(Article_Schema);
+module.exports = model("Article", Article_Schema);
