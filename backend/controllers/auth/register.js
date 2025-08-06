@@ -3,7 +3,6 @@ const User = require("../../models/User");
 
 const { v4: uuidv4 } = require("uuid");
 const jwt = require("jsonwebtoken");
-const bcrypt = require("bcryptjs");
 
 /**
  * @desc    Register a new user
@@ -31,12 +30,10 @@ const register = async (request, response) =>
         if(email_exists)
             return response.status(400).json({ message: "Email already exists" });
         
-        const hashed_password = await bcrypt.hash(password, 10);
-        
         const user = new User(
             {
                 username,
-                password: hashed_password,
+                password,
                 email
             }
         );

@@ -1,11 +1,11 @@
 const Article = require("../../models/Article");
 
 /**
- * @desc    Get all articles for a specific user
- * @route   GET /api/users/:id/articles
- * @access  Private
+ * @desc    Get public articles for a specific user
+ * @route   GET /api/users/:id/public-articles
+ * @access  Public
  */
-const get_user_articles = async (request, response) =>
+const get_public_user_articles = async (request, response) =>
 {
     try
     {
@@ -14,15 +14,19 @@ const get_user_articles = async (request, response) =>
         const articles = await Article.find({ author: user_id }).populate("author", "username");
 
         if(!articles.length)
-            return response.status(200).json([]);
+            return response.status(200).json([]); 
 
         return response.status(200).json(articles);
     }
     catch(error)
     {
         console.error(error);
+
+        if (error.kind === "ObjectId")
+            return response.status(404).json({ message: "Invalid user ID format." });
+        
         return response.status(500).json({ message: "Internal Server Error." });
     }
 };
 
-module.exports = get_user_articles;
+module.exports = get_public_user_articles;

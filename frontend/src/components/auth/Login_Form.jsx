@@ -7,7 +7,6 @@ import { api_request } from '../../api';
 
 export const Login_Form = () =>
 {
-    // Change 'email' state to 'uid' to reflect the backend change
     const [uid, set_uid] = useState("");
     const [password, set_password] = useState("");
     const [loading, set_loading] = useState(false);
@@ -49,24 +48,31 @@ export const Login_Form = () =>
     };
 
     return (
-        <Box component="form" onSubmit={handle_login} noValidate sx={{ mt: 1, p: 3, border: '1px solid #ccc', borderRadius: 2 }}>
-            <Typography component="h1" variant="h5" align="center">
+        <Box 
+            component="form" 
+            onSubmit={handle_login} 
+            noValidate 
+            sx={{ 
+                display: 'flex', 
+                flexDirection: 'column', 
+                gap: 2 
+            }}
+        >
+            <Typography component="h1" variant="h5" align="center" sx={{ mb: 2, fontWeight: 'bold' }}>
                 Login
             </Typography>
             <TextField
-                margin="normal"
                 required
                 fullWidth
-                id="uid" // Changed ID to uid
-                label="Username or Email Address" // Updated label
-                name="uid" // Changed name to uid
-                autoComplete="username email" // Updated autocomplete
+                id="uid"
+                label="Username or Email Address"
+                name="uid"
+                autoComplete="username email"
                 autoFocus
                 value={ uid }
-                onChange={ (e) => set_uid(e.target.value) } // Updated state setter
+                onChange={ (e) => set_uid(e.target.value) }
             />
             <TextField
-                margin="normal"
                 required
                 fullWidth
                 name="password"
@@ -81,6 +87,7 @@ export const Login_Form = () =>
                 type="submit"
                 fullWidth
                 variant="contained"
+                size="large"
                 sx={{ mt: 3, mb: 2 }}
                 disabled={loading}
             >

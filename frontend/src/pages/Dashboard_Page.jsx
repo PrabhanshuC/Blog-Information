@@ -6,7 +6,7 @@ import { Dashboard } from '../components/user/Dashboard';
 export const Dashboard_Page = () =>
 {
     return (
-        <Container>
+        <Container maxWidth="lg">
             <Dashboard />
         </Container>
     );

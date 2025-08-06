@@ -17,7 +17,7 @@ const register_validation = [
 ];
 
 const login_validation = [
-    body("email", "Please include a valid email").isEmail(),
+    body("uid", "Username or Email is required").not().isEmpty(),
     body("password", "Password is required").exists()
 ];
 

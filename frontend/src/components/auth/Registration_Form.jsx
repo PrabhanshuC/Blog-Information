@@ -5,7 +5,7 @@ import { Box, Typography, TextField, Button, CircularProgress, Snackbar, Alert }
 import { useAuth } from '../../hooks/useAuth';
 import { api_request } from '../../api';
 
-export const Registration_Form = () =>
+export const Register_Form = () =>
 {
     const { login } = useAuth();
     const navigate = useNavigate();
@@ -31,7 +31,6 @@ export const Registration_Form = () =>
         }
 
         set_loading(true);
-
         try
         {
             const data = await api_request('/api/auth/register', 'POST', { username, email, password });
@@ -39,7 +38,7 @@ export const Registration_Form = () =>
             set_snackbar_message('Registration successful!');
             set_snackbar_severity('success');
             set_open_snackbar(true);
-            navigate('/dashboard'); // Redirect to dashboard
+            navigate('/dashboard');
         }
         catch (err)
         {
@@ -59,12 +58,20 @@ export const Registration_Form = () =>
     };
 
     return (
-        <Box component="form" onSubmit={handle_submit} noValidate sx={{ mt: 1, p: 3, border: '1px solid #ccc', borderRadius: 2 }}>
-            <Typography component="h1" variant="h5" align="center">
+        <Box 
+            component="form" 
+            onSubmit={handle_submit} 
+            noValidate 
+            sx={{ 
+                display: 'flex', 
+                flexDirection: 'column', 
+                gap: 2 
+            }}
+        >
+            <Typography component="h1" variant="h5" align="center" sx={{ mb: 2, fontWeight: 'bold' }}>
                 Register
             </Typography>
             <TextField
-                margin="normal"
                 required
                 fullWidth
                 id="username"
@@ -76,7 +83,6 @@ export const Registration_Form = () =>
                 onChange={(e) => set_username(e.target.value)}
             />
             <TextField
-                margin="normal"
                 required
                 fullWidth
                 id="email"
@@ -87,7 +93,6 @@ export const Registration_Form = () =>
                 onChange={(e) => set_email(e.target.value)}
             />
             <TextField
-                margin="normal"
                 required
                 fullWidth
                 name="password"
@@ -99,7 +104,6 @@ export const Registration_Form = () =>
                 onChange={(e) => set_password(e.target.value)}
             />
             <TextField
-                margin="normal"
                 required
                 fullWidth
                 name="confirm_password"
@@ -114,6 +118,7 @@ export const Registration_Form = () =>
                 type="submit"
                 fullWidth
                 variant="contained"
+                size="large"
                 sx={{ mt: 3, mb: 2 }}
                 disabled={loading}
             >

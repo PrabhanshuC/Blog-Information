@@ -6,7 +6,7 @@ import { Article_Search } from '../components/article/Article_Search';
 export const Home_Page = () =>
 {
     return (
-        <Container>
+        <Container maxWidth="lg">
             <Article_Search />
         </Container>
     );

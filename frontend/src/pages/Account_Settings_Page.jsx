@@ -1,13 +1,13 @@
 import React from 'react';
 import { Container } from '@mui/material';
 
-import { Article_Details } from '../components/article/Article_Details';
+import { Account_Settings } from '../components/user/Account_Settings';
 
-export const Article_Details_Page = () =>
+export const Account_Settings_Page = () =>
 {
     return (
         <Container maxWidth="md">
-            <Article_Details />
+            <Account_Settings />
         </Container>
     );
 };
