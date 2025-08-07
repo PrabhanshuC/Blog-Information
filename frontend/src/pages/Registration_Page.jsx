@@ -1,15 +1,17 @@
 import React from 'react';
 import { Container, Paper } from '@mui/material';
 
-import { Register_Form } from '../components/auth/Registration_Form';
+import { Registration_Form } from '../components/auth/Registration_Form';
 
-export const Register_Page = () =>
+const Registration_Page = () =>
 {
     return (
         <Container maxWidth="sm">
             <Paper elevation={6} sx={{ p: { xs: 2, md: 4 }, mt: 5, borderRadius: 2 }}>
-                <Register_Form />
+                <Registration_Form />
             </Paper>
         </Container>
     );
 };
+
+export default Registration_Page;

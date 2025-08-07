@@ -5,9 +5,9 @@ import { Box, Typography, TextField, Button, CircularProgress, Snackbar, Alert }
 import { useAuth } from '../../hooks/useAuth';
 import { api_request } from '../../api';
 
-export const Register_Form = () =>
+export const Registration_Form = () =>
 {
-    const { login } = useAuth();
+    const { register } = useAuth();
     const navigate = useNavigate();
     const [username, set_username] = useState('');
     const [email, set_email] = useState('');
@@ -34,7 +34,7 @@ export const Register_Form = () =>
         try
         {
             const data = await api_request('/api/auth/register', 'POST', { username, email, password });
-            login(data.token);
+            register(data.token);
             set_snackbar_message('Registration successful!');
             set_snackbar_severity('success');
             set_open_snackbar(true);
@@ -119,8 +119,8 @@ export const Register_Form = () =>
                 fullWidth
                 variant="contained"
                 size="large"
+                disabled={loading ? true : false}
                 sx={{ mt: 3, mb: 2 }}
-                disabled={loading}
             >
                 {loading ? <CircularProgress size={24} /> : 'Sign Up'}
             </Button>

@@ -1,10 +1,26 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
 
-export const Footer = () =>
+export const Footer = ({ drawer_width_collapsed, drawer_width_expanded, sidebar_open, user }) => // Receive user
 {
     return (
-        <Box component="footer" sx={{ py: 3, px: 2, mt: 'auto', backgroundColor: (theme) => theme.palette.grey[200], boxShadow: 3 }}>
+        <Box 
+            component="footer" 
+            sx={{ 
+                py: 3, 
+                px: 2, 
+                backgroundColor: 'background.default',
+                boxShadow: 3,
+                // Offset by sidebar width and transitions
+                ml: { md: user ? (sidebar_open ? `${drawer_width_expanded}px` : `${drawer_width_collapsed}px`) : 0 },
+                transition: (theme) => theme.transitions.create('margin-left', {
+                    easing: theme.transitions.easing.sharp,
+                    duration: theme.transitions.duration.enteringScreen,
+                }),
+                // Width calculation also depends on sidebar visibility
+                width: { md: user ? (sidebar_open ? `calc(100% - ${drawer_width_expanded}px)` : `calc(100% - ${drawer_width_collapsed}px)`) : '100%' },
+            }}
+        >
             <Typography variant="body2" color="text.secondary" align="center">
                 {'© '}
                 {new Date().getFullYear()}

@@ -3,7 +3,7 @@ import { Container, Paper } from '@mui/material';
 
 import { Login_Form } from '../components/auth/Login_Form';
 
-export const Login_Page = () =>
+const Login_Page = () =>
 {
     return (
         <Container maxWidth="sm">
@@ -13,3 +13,5 @@ export const Login_Page = () =>
         </Container>
     );
 };
+
+export default Login_Page;

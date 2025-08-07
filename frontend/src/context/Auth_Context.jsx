@@ -1,5 +1,6 @@
-import React, { useState, useEffect, createContext } from "react";
+import React, { useState, useEffect, createContext, useContext } from "react";
 import { api_request } from "../api";
+import { useNavigate } from 'react-router-dom';
 
 const Auth_Context = createContext(null);
 
@@ -8,6 +9,7 @@ export const Auth_Provider = ({ children }) =>
     const [user, setUser] = useState(null);
     const [token, setToken] = useState(localStorage.getItem("authToken"));
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
     useEffect(
         () =>
@@ -36,38 +38,78 @@ export const Auth_Provider = ({ children }) =>
                 }
                 setLoading(false);
             };
+
             fetch_user_profile();
         },
-        [token]
+        [token, navigate]
     );
 
-    const login = async (new_token) =>
+    const login = async (uid, password) =>
     {
-        setToken(new_token);
-        localStorage.setItem("authToken", new_token);
-        try {
-            const data = await api_request("/api/users/profile", "GET", null, new_token);
-            setUser(data.user);
-        } catch (error) {
-            console.error("Failed to fetch user profile after login:", error);
+        try
+        {
+            const data = await api_request("/api/auth/login", "POST", { uid, password });
+            setToken(data.token);
+            localStorage.setItem("authToken", data.token);
+            const user_profile_data = await api_request("/api/users/profile", "GET", null, data.token);
+            setUser(user_profile_data.user);
+            return { success: true };
+        }
+        catch(error)
+        {
+            console.error("Login failed in AuthContext:", error);
             setUser(null);
             setToken(null);
             localStorage.removeItem("authToken");
+            throw error;
+        }
+    };
+
+    const register = async (username, email, password) =>
+    {
+        try
+        {
+            const data = await api_request("/api/auth/register", "POST", { username, email, password });
+            setToken(data.token);
+            localStorage.setItem("authToken", data.token);
+            const user_profile_data = await api_request("/api/users/profile", "GET", null, data.token);
+            setUser(user_profile_data.user);
+            return { success: true };
+        }
+        catch(error)
+        {
+            console.error("Registration failed in AuthContext:", error);
+            setUser(null);
+            setToken(null);
+            localStorage.removeItem("authToken");
+            throw error;
         }
     };
     
     const logout = () =>
     {
         api_request("/api/auth/logout", "POST", null, token)
-            .then(() => console.log("Logout successful"))
-            .catch(err => console.error("Logout failed:", err));
-
-        setToken(null);
-        localStorage.removeItem("authToken");
-        setUser(null);
+            .then(() =>
+                {
+                    console.log("Logout successful");
+                    setToken(null);
+                    localStorage.removeItem("authToken");
+                    setUser(null);
+                    navigate('/');
+                }
+            )
+            .catch(err =>
+                {
+                    console.error("Logout failed:", err);
+                    setToken(null);
+                    localStorage.removeItem("authToken");
+                    setUser(null);
+                    navigate('/');
+                }
+            );
     };
 
-    const value = { user, token, loading, login, logout };
+    const value = { user, token, loading, login, register, logout };
 
     return <Auth_Context.Provider value={value}>{children}</Auth_Context.Provider>;
 };

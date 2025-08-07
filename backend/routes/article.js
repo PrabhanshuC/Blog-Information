@@ -10,16 +10,12 @@ const create_article = require("../controllers/article/create_article");
 const delete_article = require("../controllers/article/delete_article");
 const get_article = require("../controllers/article/get_article");
 const get_articles = require("../controllers/article/get_articles");
-const search_articles = require("../controllers/article/search_articles");
 const update_article = require("../controllers/article/update_article");
 
 // Article CRUD Operations Routes
 
 // Handles GET /api/articles/
 router.get('/', get_articles);
-
-// Handles GET /api/articles/search
-router.get('/search', search_articles);
 
 // Handles GET /api/articles/:id
 router.get('/:id', get_article);

@@ -42,6 +42,9 @@ server.use("/api/users", require("./routes/user"));
 // For API routes related to articles
 server.use("/api/articles", require("./routes/article"));
 
+// For API routes related to searching
+server.use("/api/search", require("./routes/search"));
+
 // For API routes related to admin
 server.use("/api/admin", require("./routes/admin"));
 

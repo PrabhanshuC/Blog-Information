@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Box, Typography, TextField, Button, CircularProgress, Snackbar, Alert } from '@mui/material';
 
 import { useAuth } from '../../hooks/useAuth';
-import { api_request } from '../../api';
 
 export const Login_Form = () =>
 {
@@ -23,12 +22,12 @@ export const Login_Form = () =>
         set_loading(true);
         try
         {
-            const data = await api_request("/api/auth/login", "POST", { uid, password });
-            login(data.token);
+            // Await the login function from context to ensure user state is updated
+            await login(uid, password); // Pass uid and password to context's login
             set_snackbar_message('Login successful!');
             set_snackbar_severity('success');
             set_open_snackbar(true);
-            navigate('/dashboard');
+            navigate('/dashboard'); // Navigate after successful login
         }
         catch(error)
         {
@@ -89,7 +88,7 @@ export const Login_Form = () =>
                 variant="contained"
                 size="large"
                 sx={{ mt: 3, mb: 2 }}
-                disabled={loading}
+                disabled={loading ? true : false}
             >
                 {loading ? <CircularProgress size={24} /> : 'Sign In'}
             </Button>
